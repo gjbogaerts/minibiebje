@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'auth_screen.dart';
-import '../theming/paddings.dart';
-import '../../core/viewmodels/home_screen_model.dart';
 import 'package:stacked/stacked.dart';
+
+import '../../core/viewmodels/home_screen_model.dart';
+import '../theming/paddings.dart';
+import 'auth_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

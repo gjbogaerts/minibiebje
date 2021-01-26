@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../utils/service_locator.dart';
-import '../services/auth_service_b4a.dart';
 import '../models/user.dart';
+import '../services/auth_service_abstract.dart';
+import '../utils/service_locator.dart';
 
 class HomeScreenModel extends ChangeNotifier {
-  AuthServiceB4a _auth = locator<AuthServiceB4a>();
+  AuthServiceAbstract _auth = locator<AuthServiceAbstract>();
   User _user;
 
   void initialise() async {

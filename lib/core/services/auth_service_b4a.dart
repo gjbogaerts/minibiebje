@@ -5,10 +5,10 @@ import '../exceptions/auth_exception.dart';
 import '../models/user.dart';
 import '../utils/service_locator.dart';
 import 'auth_service_abstract.dart';
-import 'db_service_graphql.dart';
+import 'db_service_abstract.dart';
 
 class AuthServiceB4a extends AuthServiceAbstract {
-  DbServiceGraphQL _graphQL = locator<DbServiceGraphQL>();
+  DbServiceAbstract _graphQL = locator<DbServiceAbstract>();
   GraphQLClient _client;
   User _user;
 
@@ -36,6 +36,7 @@ class AuthServiceB4a extends AuthServiceAbstract {
   }
 
   Future<bool> auth(Map<String, dynamic> authData) async {
+    // print(authData);
     try {
       if (authData['register'] == true) {
         await _register(authData);
@@ -88,6 +89,7 @@ mutation LogIn($username: String!, $password: String!){
   }
 
   Future<QueryResult> _register(Map<String, dynamic> authData) async {
+    print(authData);
     final query = r'''
     mutation SignUp($username: String!, $password: String!, $email: String!) {
   signUp(input: {

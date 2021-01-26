@@ -1,1 +1,3 @@
-abstract class DbServiceAbstract {}
+abstract class DbServiceAbstract {
+  getClient();
+}

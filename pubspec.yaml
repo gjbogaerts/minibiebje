@@ -30,6 +30,7 @@ dependencies:
   logger: ^0.9.4
   shared_preferences: ^0.5.12+4
   stacked: ^1.7.7
+  stacked_services: ^0.6.4
 
 dev_dependencies:
   flutter_test:
