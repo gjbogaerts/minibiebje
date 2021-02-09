@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minibieb/ui/widgets/drawer.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../core/viewmodels/home_screen_model.dart';
@@ -16,6 +17,7 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Je eigen bibliotheek'),
         ),
+        drawer: MyDrawer(),
         body: Padding(
           padding: const EdgeInsets.all(Paddings.screenPadding),
           child: Column(
@@ -28,13 +30,6 @@ class HomeScreen extends StatelessWidget {
               ),
               SizedBox(
                 height: Paddings.dividerHeight,
-              ),
-              if (model.user != null) Text('Welkom ${model.user.username}'),
-              TextButton(
-                onPressed: () => model.hasAuth
-                    ? model.logout()
-                    : Navigator.of(context).pushNamed(AuthScreen.routeName),
-                child: Text(model.hasAuth ? 'Log uit' : 'Inloggen'),
               ),
             ],
           ),
