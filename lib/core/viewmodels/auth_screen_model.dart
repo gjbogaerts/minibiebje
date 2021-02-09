@@ -12,6 +12,7 @@ class AuthScreenModel extends BaseViewModel {
   String _errorString = '';
   bool _hidePassword = true;
   bool _authResult;
+  bool _working = false;
   TextEditingController _pwController = TextEditingController();
   Map<String, dynamic> _formValues = {
     'username': null,
@@ -69,7 +70,7 @@ class AuthScreenModel extends BaseViewModel {
     return _isRegistering;
   }
 
-  void startAuth() async {
+  void startAuth() {
     if (!_formKey.currentState.validate()) {
       _errorString =
           'Je formulier bevat fouten. Wil je het svp correct invullen?';
@@ -81,8 +82,14 @@ class AuthScreenModel extends BaseViewModel {
     }
     _formKey.currentState.save();
     _formValues['register'] = _isRegistering;
+    _working = true;
+    notifyListeners();
+    auth();
+  }
+
+  Future<void> auth() async {
     try {
-      var result = await runBusyFuture(auth());
+      var result = await _authService.auth(_formValues);
       if (result) {
         _authResult = true;
         _errorString = '';
@@ -93,17 +100,14 @@ class AuthScreenModel extends BaseViewModel {
       }
     } catch (err) {
       _authResult = false;
-      _errorString = err.toString();
+      // _errorString = err.toString();
     } finally {
+      _working = false;
       notifyListeners();
     }
   }
 
-  Future<bool> auth() async {
-    return await _authService.auth(_formValues);
-  }
+  bool get authResult => _authResult;
 
-  bool get authResult {
-    return _authResult;
-  }
+  bool get working => _working;
 }

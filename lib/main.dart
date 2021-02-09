@@ -5,9 +5,13 @@ import 'ui/theming/custom_theme.dart';
 import 'ui/screens/auth_screen.dart';
 import 'core/utils/service_locator.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'ui/widgets/dialog.dart';
+import 'ui/screens/library_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
+  setupDialog();
   runApp(MyApp());
 }
 
@@ -21,6 +25,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: StackedService.navigatorKey,
       routes: {
         AuthScreen.routeName: (ctx) => AuthScreen(),
+        LibraryScreen.routeName: (ctx) => LibraryScreen(),
       },
     );
   }

@@ -6,18 +6,66 @@ import '../models/user.dart';
 import '../utils/service_locator.dart';
 import 'auth_service_abstract.dart';
 import 'db_service_abstract.dart';
+import 'package:logger/logger.dart';
+import '../utils/my_logger.dart';
+import 'dart:math';
 
 class AuthServiceB4a extends AuthServiceAbstract {
   DbServiceAbstract _graphQL = locator<DbServiceAbstract>();
   GraphQLClient _client;
   User _user;
-
-  AuthServiceB4a() {
-    _client = _graphQL.getClient();
-  }
+  Logger _log = getLogger('AuthServiceB4A');
 
   User get user {
     return _user;
+  }
+
+  Future<bool> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('user')) {
+      throw AuthException(
+          'Je moet ingelogd zijn om deze functie te gebruiken.');
+    }
+    final userJson = prefs.getString('user');
+    final User user = User.fromJson(userJson);
+    String token = user.sessionToken;
+    _client = _graphQL.getClient(sessionToken: token);
+    try {
+      final query = r'''
+        mutation LogOut ($clientMutationId: String!) {
+          logOut(input: {
+            clientMutationId: $clientMutationId
+          }) {
+            viewer {
+              user {
+                id
+              }
+            }
+          }
+        }
+      ''';
+      int randInt = Random().nextInt(100000);
+      final QueryOptions options = QueryOptions(
+        documentNode: gql(query),
+        variables: <String, String>{'clientMutationId': randInt.toString()},
+      );
+
+      _log.d(_client);
+      final QueryResult result = await _client.query(options);
+      _log.d(
+          'logout | data: ${result.data} | hasException: ${result.hasException} | msg: ${result.exception.toString()}');
+      if (!result.hasException) {
+        if (prefs.containsKey('user')) {
+          await prefs.remove('user');
+        }
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      _log.d('Exception has occurred: ${err.toString()}');
+      throw AuthException(err.toString());
+    }
   }
 
   Future<bool> tryAutoLogin() async {
@@ -52,6 +100,8 @@ class AuthServiceB4a extends AuthServiceAbstract {
   }
 
   Future<QueryResult> _login(Map<String, dynamic> authData) async {
+    _client = _graphQL.getClient();
+    _log.d('_login | $authData');
     final query = r'''
 mutation LogIn($username: String!, $password: String!){
   logIn(input: {
@@ -89,7 +139,7 @@ mutation LogIn($username: String!, $password: String!){
   }
 
   Future<QueryResult> _register(Map<String, dynamic> authData) async {
-    print(authData);
+    _client = _graphQL.getClient();
     final query = r'''
     mutation SignUp($username: String!, $password: String!, $email: String!) {
   signUp(input: {
@@ -108,7 +158,6 @@ mutation LogIn($username: String!, $password: String!){
         email
         
       }
-      sessionToken
     }
   }
 }
@@ -125,14 +174,9 @@ mutation LogIn($username: String!, $password: String!){
     final QueryResult result = await _client.query(options);
     final Map<String, dynamic> userMap =
         result.data['signUp']['viewer']['user'];
-    userMap['sessionToken'] = result.data['signUp']['viewer']['sessionToken'];
 
     _user = User.fromMap(userMap);
     // print(_user.toString());
     return result;
-  }
-
-  Future<void> logout() {
-    return Future.delayed(Duration(seconds: 2));
   }
 }

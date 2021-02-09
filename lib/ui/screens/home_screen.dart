@@ -19,6 +19,8 @@ class HomeScreen extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(Paddings.screenPadding),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
                 'Ingang',
@@ -29,9 +31,10 @@ class HomeScreen extends StatelessWidget {
               ),
               if (model.user != null) Text('Welkom ${model.user.username}'),
               TextButton(
-                onPressed: () =>
-                    Navigator.of(context).pushNamed(AuthScreen.routeName),
-                child: Text('Inloggen'),
+                onPressed: () => model.hasAuth
+                    ? model.logout()
+                    : Navigator.of(context).pushNamed(AuthScreen.routeName),
+                child: Text(model.hasAuth ? 'Log uit' : 'Inloggen'),
               ),
             ],
           ),

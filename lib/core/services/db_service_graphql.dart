@@ -3,15 +3,15 @@ import 'package:minibieb/core/services/db_service_abstract.dart';
 import 'package:graphql/client.dart';
 
 class DbServiceGraphQL extends DbServiceAbstract {
-  final HttpLink _httpLink = HttpLink(uri: kB4UriGraphQl, headers: {
-    "X-Parse-Application-Id": kB4ApplicationId,
-    "X-Parse-Client-Key": kB4ClientKey,
-  });
+  GraphQLClient getClient({String sessionToken}) {
+    final HttpLink _httpLink = HttpLink(uri: kB4UriGraphQl, headers: {
+      "X-Parse-Application-Id": kB4ApplicationId,
+      "X-Parse-Client-Key": kB4ClientKey,
+      "X-Parse-Session-Token": sessionToken != null ? sessionToken : '',
+    });
 
-  GraphQLClient getClient() {
-    final GraphQLClient _client = GraphQLClient(
+    return GraphQLClient(
         link: _httpLink,
         cache: OptimisticCache(dataIdFromObject: typenameDataIdFromObject));
-    return _client;
   }
 }

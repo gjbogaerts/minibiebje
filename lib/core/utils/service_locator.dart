@@ -11,5 +11,6 @@ GetIt locator = GetIt.instance;
 setupServiceLocator() {
   locator.registerLazySingleton<AuthServiceAbstract>(() => AuthServiceB4a());
   locator.registerLazySingleton<DbServiceAbstract>(() => DbServiceGraphQL());
-  locator.registerLazySingleton(() => DialogService());
+  locator.registerLazySingleton<DialogService>(() => DialogService());
+  locator.registerLazySingleton<SnackbarService>(() => SnackbarService());
 }
