@@ -22,12 +22,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: CustomTheme.standardTheme,
-      home: HomeScreen(),
+      home: SearchScreen(),
       navigatorKey: StackedService.navigatorKey,
       routes: {
         AuthScreen.routeName: (ctx) => AuthScreen(),
         LibraryScreen.routeName: (ctx) => LibraryScreen(),
         SearchScreen.routeName: (ctx) => SearchScreen(),
+        HomeScreen.routeName: (ctx) => HomeScreen(),
       },
     );
   }

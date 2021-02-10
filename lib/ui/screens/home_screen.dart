@@ -4,9 +4,9 @@ import 'package:stacked/stacked.dart';
 
 import '../../core/viewmodels/home_screen_model.dart';
 import '../theming/paddings.dart';
-import 'auth_screen.dart';
 
 class HomeScreen extends StatelessWidget {
+  static const routeName = '/home';
   @override
   Widget build(BuildContext context) {
     // var user = model.user;

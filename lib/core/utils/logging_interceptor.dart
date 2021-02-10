@@ -1,4 +1,4 @@
-import 'package:http_interceptor/http_interceptor.dart';
+/* import 'package:http_interceptor/http_interceptor.dart';
 import 'my_logger.dart';
 import 'dart:convert';
 
@@ -15,4 +15,4 @@ class LoggingInterceptor implements InterceptorContract {
     _log.i('Response: ${json.decode(data.body)}');
     return Future.value(data);
   }
-}
+} */
