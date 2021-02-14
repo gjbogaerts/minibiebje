@@ -10,7 +10,6 @@ class CustomTheme {
       primaryColorDark: CustomColors.darkBlue,
       primaryColorLight: CustomColors.lightGrey,
       dividerColor: CustomColors.darkGrey,
-      textSelectionColor: CustomColors.amber,
       errorColor: CustomColors.red,
       fontFamily: 'Commissioner',
       cardTheme: CardTheme(
@@ -59,6 +58,8 @@ class CustomTheme {
       textTheme: TextTheme(
         headline1: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
         headline3: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+        headline4: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        headline5: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         headline6: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
         bodyText2: TextStyle(fontSize: 18, color: CustomColors.graphite),
         bodyText1: TextStyle(

@@ -27,8 +27,8 @@ dependencies:
   dio: ^3.0.10
   get_it: ^5.0.6
   graphql: ^3.1.0
-  # http_interceptor: ^0.3.3
   logger: ^0.9.4
+  pagination: ^0.1.0
   shared_preferences: ^0.5.12+4
   stacked: ^1.7.7
   stacked_services: ^0.6.4
