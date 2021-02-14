@@ -24,14 +24,17 @@ class SearchScreenModel extends BaseViewModel {
     _isWorking = true;
     notifyListeners();
     await _service.doSearch(title: _title, author: _author);
-    volumes = _service.volumes;
+    if (volumes == null || volumes.length == 0) {
+      volumes = _service.volumes;
+    } else {
+      volumes.addAll(_service.volumes);
+    }
     totalSearchResultCount = _service.totalItemCount;
     _isWorking = false;
     notifyListeners();
   }
 
   Future<List<GoogleVolume>> fetchNext(int o) async {
-    volumes = [];
     offset += numItemsToFetch;
     await _service.doSearch(title: _title, author: _author, offset: offset);
     return _service.volumes;

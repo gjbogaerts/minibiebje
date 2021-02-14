@@ -21,6 +21,7 @@ class GoogleBooksService {
     String _q = _buildQueryString(title: title, author: author);
     final uri = _baseUrl + 'v1/volumes?q=$_q';
     _queryParams['startIndex'] = offset;
+    _volumes = [];
     try {
       _response = await _dio.get(uri, queryParameters: _queryParams);
       List _items = _response.data['items'] ?? [];
